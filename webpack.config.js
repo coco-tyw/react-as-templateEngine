@@ -1,24 +1,31 @@
+const path = require('path');
+
+const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const globule = require('globule');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const getEntriesList = (path) => globule.find('**/*.jsx', {cwd: `${__dirname}${path}`})
+const getEntriesList = () => globule.find(path.resolve(__dirname, 'src/pages/**/*.jsx'));
 
 module.exports = {
   mode: 'development',
   plugins: [
-    // new HtmlWebpackPlugin()
-    // ...getEntriesList('/src/pages').map(entry => new HtmlWebpackPlugin({
-    //   template: `./src/pages/${entry}`,
-    //   filename: entry.replace(new RegExp('.jsx$', 'i'), '.html')
-    // }))
     new HtmlWebpackPlugin({
-      template: './src/pages/index.jsx',
-      // filename: 'index.html'
+      template: path.resolve(__dirname, 'src/public/index.html'),
+      title: 'react as template engine',
+      templateParameters: {
+        BASE_URL: '/'
+      }
     }),
-    new MiniCssExtractPlugin(),
+    // new HtmlWebpackPlugin(),
+    // ...getEntriesList().map(entry => new HtmlWebpackPlugin(entry)),
+    // new HtmlWebpackPlugin({
+    //   template: './src/pages/index.jsx',
+    //   // filename: 'index.html'
+    // }),
+    new MiniCssExtractPlugin()
   ],
-  // entry: './src/pages/index.jsx',
+  entry: getEntriesList().map(entry => entry),
   module: {
     rules: [
       {
@@ -35,7 +42,7 @@ module.exports = {
       }, {
         test: /\.css$/,
         use: [
-          // MiniCssExtractPlugin.loader,
+          MiniCssExtractPlugin.loader,
           // {loader: "style-loader", options: {injectType: "linkTag"}},
           {loader: "css-loader"}
         ]
