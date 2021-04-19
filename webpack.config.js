@@ -9,6 +9,18 @@ const getEntriesList = () => globule.find(path.resolve(__dirname, 'src/pages/**/
 
 module.exports = {
   mode: 'development',
+  entry: path.resolve(__dirname, 'src/index.jsx'),
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    libraryTarget: 'umd',
+    clean: true,
+    globalObject: 'this'
+  },
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    port: 8000,
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/public/index.html'),
@@ -17,15 +29,15 @@ module.exports = {
         BASE_URL: '/'
       }
     }),
+    // new StaticSiteGeneratorPlugin('bundle.js', '/'),
     // new HtmlWebpackPlugin(),
     // ...getEntriesList().map(entry => new HtmlWebpackPlugin(entry)),
     // new HtmlWebpackPlugin({
     //   template: './src/pages/index.jsx',
     //   // filename: 'index.html'
     // }),
-    new MiniCssExtractPlugin()
+    // new MiniCssExtractPlugin()
   ],
-  entry: getEntriesList().map(entry => entry),
   module: {
     rules: [
       {
@@ -42,9 +54,9 @@ module.exports = {
       }, {
         test: /\.css$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          // {loader: "style-loader", options: {injectType: "linkTag"}},
-          {loader: "css-loader"}
+          // MiniCssExtractPlugin.loader,
+          {loader: "style-loader"},
+          {loader: "css-loader?modules"}
         ]
       }
     ]
