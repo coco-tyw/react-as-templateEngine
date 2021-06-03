@@ -22,14 +22,15 @@ module.exports = {
     port: 8000,
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/public/index.html'),
-      title: 'react as template engine',
-      templateParameters: {
-        BASE_URL: '/'
-      }
-    }),
-    // new StaticSiteGeneratorPlugin('bundle.js', '/'),
+    // new HtmlWebpackPlugin({
+    //   template: path.resolve(__dirname, 'src/public/index.html'),
+    //   filename: 'template.html',
+    //   title: 'react as template engine',
+    //   templateParameters: {
+    //     BASE_URL: '/'
+    //   }
+    // }),
+    new StaticSiteGeneratorPlugin('bundle.js', '/'),
     // new HtmlWebpackPlugin(),
     // ...getEntriesList().map(entry => new HtmlWebpackPlugin(entry)),
     // new HtmlWebpackPlugin({

@@ -1,11 +1,11 @@
 import React from "react"
 
-import './index.css'
+import styles from './index.css'
 
 const Index = () => {
   return (
     <div>
-      <section>
+      <section className={styles.textGray}>
         root
       </section>
     </div>
